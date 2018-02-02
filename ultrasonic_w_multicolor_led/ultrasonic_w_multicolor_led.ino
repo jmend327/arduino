@@ -49,6 +49,9 @@ Ultrasonic ultrasonic(12, 11);
 #define GREEN 5
 #define RED 6
 
+//set boolean variable FAULT
+bool FAULT;
+
 void setup() {
   Serial.begin(9600);
 
@@ -59,9 +62,6 @@ void setup() {
   digitalWrite(RED, LOW);
   digitalWrite(GREEN, LOW);
   digitalWrite(BLUE, LOW);
-
-  //set boolean variable FAULT
-  bool FAULT;
 }
 
 bool dist_fault_determ(int dist,int limit) {
@@ -101,7 +101,9 @@ void loop() {
   Serial.print("Distance in CM: ");
   Serial.println(distance);
 
-  if (dist_fault_determ(distance,distance_threshold)) {
+  FAULT = dist_fault_determ(distance,distance_threshold);
+
+  if (FAULT) {
     fault();
   }
   else {
