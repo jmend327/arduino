@@ -60,7 +60,6 @@ void loop() {
   Serial.print("Distance in CM: ");
   
   // Pass INC as a parameter to get the distance in inches
-  //Serial.println(ultrasonic.distanceRead());
   Serial.println(distance);
 
   // IF/ELSE statement to blink light on conditional
@@ -72,9 +71,4 @@ void loop() {
   }
   
   delay(1000);
-
-  //blink LED
-  //digitalWrite(led, HIGH);   // turn the LED on (HIGH is the voltage level)
-  //delay(100);                       // wait for a second
-  //digitalWrite(led, LOW);    // turn the LED off by making the voltage LOW
 }
