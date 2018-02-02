@@ -52,43 +52,61 @@ Ultrasonic ultrasonic(12, 11);
 void setup() {
   Serial.begin(9600);
 
-  // initialize digital pin LED_BUILTIN as an output.
-  //pinMode(led, OUTPUT);
-
   // Added for multicolor LED
   pinMode(RED, OUTPUT);
   pinMode(GREEN, OUTPUT);
   pinMode(BLUE, OUTPUT);
-  ///digitalWrite(RED, HIGH);
   digitalWrite(RED, LOW);
   digitalWrite(GREEN, LOW);
   digitalWrite(BLUE, LOW);
 }
+
+bool dist_fault_determ(int dist,int limit) {
+  //This function determines a fault given a distance
+  // and a triggering, "fault" limit
+  if (dist > limit) {
+    return true;
+  }
+  else {
+    return false;
+  }
+}
+
+void no_fault() {
+  //What to do if there's a fault
+  digitalWrite(BLUE,LOW);
+  digitalWrite(RED, LOW);
+  digitalWrite(GREEN, HIGH);
+}
+
+void fault() {
+  //What to do if there's a fault
+  digitalWrite(BLUE,LOW);
+  digitalWrite(GREEN, LOW);
+  digitalWrite(RED, HIGH);
+}
+
 
 void loop() {
 
   //make variable DISTANCE as integer of distance in cm
   int distance;
   distance = ultrasonic.distanceRead();
+
+  //threshold variable
+  int distance_threshold;
+  distance_threshold = 60;
   
+  // Pass INC as a parameter to get and print the distance in inches
   Serial.print("Distance in CM: ");
-  
-  // Pass INC as a parameter to get the distance in inches
   Serial.println(distance);
 
-  // IF/ELSE statement to blink light on conditional
-  if (distance > 60) {
-    //digitalWrite(led, HIGH);   // turn the LED on (HIGH is the voltage level)
-    digitalWrite(BLUE,LOW);
-    digitalWrite(GREEN, LOW);
-    digitalWrite(RED, HIGH);
+  if (dist_fault_determ(distance,distance_threshold)) {
+    fault();
   }
   else {
-    //digitalWrite(led, LOW);    // turn the LED off by making the voltage LOW
-    digitalWrite(BLUE,LOW);
-    digitalWrite(RED, LOW);
-    digitalWrite(GREEN, HIGH);
+    no_fault();
   }
   
-  delay(1000);
+  delay(500);
 }
