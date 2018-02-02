@@ -59,6 +59,9 @@ void setup() {
   digitalWrite(RED, LOW);
   digitalWrite(GREEN, LOW);
   digitalWrite(BLUE, LOW);
+
+  //set boolean variable FAULT
+  bool FAULT;
 }
 
 bool dist_fault_determ(int dist,int limit) {
@@ -88,14 +91,11 @@ void fault() {
 
 
 void loop() {
-
   //make variable DISTANCE as integer of distance in cm
-  int distance;
-  distance = ultrasonic.distanceRead();
+  int distance = ultrasonic.distanceRead();
 
   //threshold variable
-  int distance_threshold;
-  distance_threshold = 60;
+  int distance_threshold = 60;
   
   // Pass INC as a parameter to get and print the distance in inches
   Serial.print("Distance in CM: ");
